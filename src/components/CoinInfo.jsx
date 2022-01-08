@@ -43,7 +43,7 @@ const CoinInfo = ({ coin }) => {
             justifyContent: "center",
             marginTop: 25,
             padding: 40,
-            ['@media (min-width:780px)']: {
+            '@media (min-width:780px)': {
                 width: "100%",
                 marginTop: 0,
                 padding: 20,
