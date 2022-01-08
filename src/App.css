@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Gilda+Display&family=Poppins:wght@100;200;300;400;500&display=swap');
+
+:root {
+  --Gilda: 'Gilda Display', serif;
+  --Poppins: 'Poppins', sans-serif;
+  --color-1: #CA9703;
+  --color-2: #D5AD36;
+  --color-3: #F4F2C9;
+  --color-4: #4488BF;
+  --color-5: #265999;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+a {
+  text-decoration: none;
+  color: #575757;
+  color: #ffffff;
+}
+
+a:hover {
+  color: #ffffff;
+  text-decoration: none;
+}
