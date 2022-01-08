@@ -55,7 +55,6 @@ const Banner = () => {
                             color: '#e6e6e6',
                             textTransform: 'capitalize',
                             fontFamily: "Poppins",
-                            padding: '10px',
                             padding: "10px",
                             background: 'rgba(214, 214, 214, 0.26)'
                         }}

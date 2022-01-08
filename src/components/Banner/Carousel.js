@@ -1,6 +1,6 @@
-import React, { forwardRef, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core'
-import axios, { Axios } from 'axios';
+import axios from 'axios';
 import { CryptoState } from '../../CryptoContext'
 import { TrendingCoins } from '../../config/api'
 import AliceCarousel from 'react-alice-carousel';
@@ -44,6 +44,7 @@ const Carousel = () => {
 
     useEffect(() => {
         fetchTrendingCoins();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currency]);
 
 

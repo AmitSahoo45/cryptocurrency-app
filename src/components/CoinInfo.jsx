@@ -1,7 +1,6 @@
 import { CircularProgress, createTheme, makeStyles, ThemeProvider } from '@material-ui/core';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Line as ChartJS } from 'chart.js/auto';
 import { Line } from 'react-chartjs-2';
 import SelectButton from "./SelectButton";
 import { chartDays } from "../config/data";
@@ -23,6 +22,7 @@ const CoinInfo = ({ coin }) => {
 
     useEffect(() => {
         fetchHistoricData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currency, days])
 
     const darkTheme = createTheme({
@@ -53,8 +53,6 @@ const CoinInfo = ({ coin }) => {
     }))
 
     const classes = useStyles();
-
-    const [flag, setflag] = useState(false);
 
     return (
         <ThemeProvider theme={darkTheme}>
