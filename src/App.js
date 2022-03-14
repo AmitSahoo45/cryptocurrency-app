@@ -10,6 +10,7 @@ import Header from './components/Header';
 import { makeStyles } from '@material-ui/core/styles';
 import { lazy, Suspense } from 'react';
 import { CircularProgress } from '@material-ui/core';
+import Alert from './components/Alert';
 const Homepage = lazy(() => import("./Pages/Homepage"))
 const CoinPage = lazy(() => import("./Pages/CoinPage"))
 
@@ -42,6 +43,7 @@ function App() {
           </Routes>
         </Suspense>
       </div>
+      <Alert />
     </BrowserRouter>
   );
 }

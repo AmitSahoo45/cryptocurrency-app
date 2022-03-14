@@ -1,4 +1,4 @@
-import { LinearProgress, makeStyles, Typography } from "@material-ui/core";
+import { Button, LinearProgress, makeStyles, Typography } from "@material-ui/core";
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -6,21 +6,21 @@ import CoinInfo from '../components/CoinInfo'
 import { numberWithCommas } from "../components/CoinsTable";
 import { SingleCoin } from '../config/api'
 import { CryptoState } from '../CryptoContext'
+import { doc, setDoc } from '@firebase/firestore'
+import { db } from '../firebase'
 
 function CoinPage() {
 
     const { id } = useParams();
     const [coin, setCoin] = useState();
 
-    const { currency, symbol } = CryptoState();
+    const { currency, symbol, user, watchlist, setAlert } = CryptoState();
 
     const fetchCoin = async () => {
         const { data } = await axios.get(SingleCoin(id));
 
         setCoin(data);
     };
-
-    console.log(coin)
 
     useEffect(() => {
         fetchCoin();
@@ -64,21 +64,76 @@ function CoinPage() {
             padding: 25,
             paddingTop: 10,
             width: "100%",
+            [theme.breakpoints.down("sm")]: {
+                flexDirection: "column",
+                alignItems: "center",
+            },
             [theme.breakpoints.down("md")]: {
                 display: "flex",
-                justifyContent: "space-around",
-            },
-            [theme.breakpoints.down("sm")]: {
                 flexDirection: "column",
                 alignItems: "center",
             },
             [theme.breakpoints.down("xs")]: {
                 alignItems: "start",
-            },
+            }
         },
     }));
 
     const classes = useStyles();
+
+    const inWatchlist = watchlist.includes(coin?.id);
+
+    const addToWatchlist = async () => {
+        const coinRef = doc(db, "watchlist", user.uid)
+
+        try {
+            await setDoc(coinRef, {
+                coins: watchlist ? [...watchlist, coin?.id] : [coin?.id]
+            })
+
+            setAlert({
+                open: true,
+                message: `${coin?.name}, Added to watchlist`,
+                type: 'success'
+            })
+
+
+        } catch (error) {
+            setAlert({
+                open: true,
+                message: `${coin?.name}, Failed to add to watchlist. Please try again.`,
+                type: 'error'
+            })
+        }
+    }
+
+    const removeFromWatchlist = async () => {
+        const coinRef = doc(db, "watchlist", user.uid)
+
+        try {
+            await setDoc(coinRef, {
+                coins: watchlist.filter((watch) => watch !== coin?.id)
+            },
+            {
+                merge: 'true'
+            }
+            )
+
+            setAlert({
+                open: true,
+                message: `${coin?.name} has been removed from watchlist`,
+                type: 'success'
+            })
+
+
+        } catch (error) {
+            setAlert({
+                open: true,
+                message: `${coin?.name}, Failed to add to watchlist. Please try again.`,
+                type: 'error'
+            })
+        }
+    }
 
     if (!coin) return <LinearProgress style={{ backgroundColor: "gold" }} />;
 
@@ -188,11 +243,28 @@ function CoinPage() {
                         </Typography>
                     </span>
 
+                    {user && (
+                        <Button
+                            variant="outlined"
+                            style={{
+                                width: "100%",
+                                height: 40,
+                                backgroundColor: inWatchlist ? "#FF0000" : "#FFC107",
+                            }}
+                            onClick={inWatchlist ? removeFromWatchlist : addToWatchlist}
+                        >
+                            {
+                                inWatchlist ? "Remove from watchlist" : "Add to watchlist"
+                            }
+                        </Button>
+                    )}
+
                 </div>
             </div>
             <CoinInfo coin={coin} />
         </div>
     )
 }
+
 
 export default CoinPage

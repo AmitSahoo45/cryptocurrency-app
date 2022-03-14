@@ -27,14 +27,14 @@ export function numberWithCommas(x) {
 const CoinsTable = () => {
 
 
-    const [coins, setCoins] = useState([]);
+    // const [coins, setCoins] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const [search, setSearch] = useState("");
 
     const [page, setPage] = useState(1);
 
-    const { currency, symbol } = CryptoState();
+    const { currency, symbol, coins, setCoins } = CryptoState();
 
     const useStyles = makeStyles({
         row: {
@@ -63,14 +63,12 @@ const CoinsTable = () => {
     const fetchCoins = async () => {
         setLoading(true);
         const { data } = await axios.get(CoinList(currency));
-        // console.log(data);
 
         setCoins(data);
         setLoading(false);
     };
 
 
-    console.log(coins)
 
     useEffect(() => {
         fetchCoins();

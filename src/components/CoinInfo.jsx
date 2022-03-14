@@ -62,14 +62,14 @@ const CoinInfo = ({ coin }) => {
             justifyContent: "center",
             marginTop: 25,
             padding: 40,
-            '@media (min-width:780px)': {
+            [theme.breakpoints.down("md")]: {
                 width: "100%",
                 marginTop: 0,
                 padding: 20,
                 paddingTop: 0,
             },
-        },
-    }))
+        }
+    }));
 
     const classes = useStyles();
 
@@ -87,6 +87,7 @@ const CoinInfo = ({ coin }) => {
                         />
                     ) : (<>
                         <Line
+                            className={classes.chart}
                             data={{
                                 labels: historicData.map((coin) => {
                                     let date = new Date(coin[0]);
